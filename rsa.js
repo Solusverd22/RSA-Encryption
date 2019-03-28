@@ -83,24 +83,30 @@ function genInverse(a,m) {
 // ADD ANY OTHER NECESSARY FUNCTIONS HERE
 
 function checkPrime(num){
+
+	//just incase the number is below 2 it is not prime
 	if (num<2){
 		return false;
 	}
 	
+	//2 is a prime number
 	if (num==2){
 		return true;
 	}
 
+	//this checks to see if the number is perfectly divisible by every number up to half of it's value
+	//it only checks up to half of the numbers value as the rest are unnecessary
 	for (let i=2;i<=num/2;i++)
 	{
 		if(num%i==0)
 		return false;
 	}
-	//If no exist a number between 2 and number/2 that divides number
+
 	return true;
 }
-function genPairPrimes(len) {
-	// this should return an array of two elements, where each element is a randomly generated prime number with len digits
+
+function genPrimeOfLength(len){
+
 	// this generates a random positive int of correct length
 	max = Math.pow(10,len)-1;
 	min = Math.pow(10,len-1);
@@ -111,23 +117,38 @@ function genPairPrimes(len) {
 		randomInt = Math.floor(Math.random() * (max - min + 1) ) + min;
 	}
 
-	primePair = [randomInt];
+	return randomInt;
+}
+function genPairPrimes(len) {
+	// this should return an array of two elements, where each element is a randomly generated prime number with len digits
 
-	randomInt = Math.floor(Math.random() * (max - min + 1) ) + min;
-	while (!checkPrime(randomInt)){
-		randomInt = Math.floor(Math.random() * (max - min + 1) ) + min;
-	}
+	primePair = [genPrimeOfLength(len), genPrimeOfLength(len)];
 
-	primePair.push(randomInt);
 	return primePair;
 }
 
 function gCD(a,b) {
 	// this should return a number, which is the greatest common divisor of two numbers, a and b
+
+	while (a !== b) {
+		if (a > b) {
+			a = a - b;
+		} else {
+			b = b - a;
+		}
+	}
+	return a;
 }
 
 function genPublicKey(prime1,prime2) {
 	// this should return an array of two elements, where the first element is the product of the primes (prime1 and prime2) and the second element is what's returned by genExp for particular inputs
+
+	publicKey = [prime1 * prime2];
+
+	publicKey.push(genExp(totient(prime1,prime2)));
+
+	return publicKey;
+
 }
 
 function genPrivateKey(product,exponent,totient) {
@@ -172,3 +193,8 @@ function convertToText(number) {
 	
 
 console.log(genPairPrimes(4));
+console.log(gCD(462, 910));
+
+var primes = genPairPrimes (3) ;
+var publicKey = genPublicKey ( primes [0] , primes [1]) ;
+console . log ( publicKey ) ;
