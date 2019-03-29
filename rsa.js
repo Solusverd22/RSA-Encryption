@@ -174,7 +174,7 @@ function encode(string) {
 
 		i++;
 
-		if(char == string.length){
+		if(char < string.length -1){
 			number= number+i+0;
 		}else{
 			number=number+i;
@@ -203,7 +203,7 @@ function decrypt(message, privateKey) {
 // this will convert numbers into words
 function convertToText(number) {
 	// when completed this will return a string which is the initial word encoded above
-	var string;
+	var string = number.toString();
 	var n = string.length;
 	var i = 0;
 	var word = "";
@@ -217,6 +217,7 @@ function convertToText(number) {
 		word = word + table[num - 1];
 		i++;
 	}
+	return word;
 }
 
 
@@ -237,13 +238,18 @@ function convertToText(number) {
 // console.log(typeof message);
 
 
-var primes = genPairPrimes(4);
+var primes = genPairPrimes(3);
 var publicKey = genPublicKey(primes[0], primes[1]);
 var privateKey = genPrivateKey(primes[0] * primes[1], publicKey[1], totient(primes[0], primes[1]));
 
 var word = "hi";
 var message = encode(word);
+console.log("encoded: "+message)
 message = encrypt(message, publicKey);
-console.log(message);
+console.log("encrypted: "+message);
 var plain = decrypt(message, privateKey);
-console.log(plain);
+console.log("decrypted: "+plain);
+var plain = convertToText(plain);
+console.log("decoded: "+plain);
+
+
