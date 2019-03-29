@@ -195,6 +195,8 @@ function encrypt(number, publicKey) {
 
 function decrypt(message, privateKey) {
 	// this will return a number from the input parameters message and privateKey
+	plainText = modulo(message,privateKey[1],privateKey[0]);
+	return plainText;
 
 }
 
@@ -223,11 +225,10 @@ function convertToText(number) {
 // console.log(genPairPrimes(4));
 // console.log(gCD(462, 910));
 
-var primes = genPairPrimes(4);
-var publicKey = genPublicKey(primes[0], primes[1]);
+// var primes = genPairPrimes(4);
+// var publicKey = genPublicKey(primes[0], primes[1]);
 // console.log(publicKey);
-// var privateKey = genPrivateKey(primes[0] * primes[1], publicKey[1], totient(primes[0],
-// 	primes[1]));
+// var privateKey = genPrivateKey(primes[0] * primes[1], publicKey[1], totient(primes[0], primes[1]));
 // console.log(privateKey);
 
 // var word = "sup";
@@ -235,7 +236,14 @@ var publicKey = genPublicKey(primes[0], primes[1]);
 // console.log(message);
 // console.log(typeof message);
 
+
+var primes = genPairPrimes(4);
+var publicKey = genPublicKey(primes[0], primes[1]);
+var privateKey = genPrivateKey(primes[0] * primes[1], publicKey[1], totient(primes[0], primes[1]));
+
 var word = "hi";
 var message = encode(word);
 message = encrypt(message, publicKey);
 console.log(message);
+var plain = decrypt(message, privateKey);
+console.log(plain);
