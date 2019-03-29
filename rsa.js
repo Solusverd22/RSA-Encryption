@@ -167,13 +167,14 @@ function encode(string) {
 	var number = "";
 
 	for (let char = 0; char < string.length; char++) {
-		i = -1;
-		i++;
+		i = 0;
 		while(string[char] != table[i]){
 			i++;
 		}
 
-		if(char < string.length){
+		i++;
+
+		if(char == string.length){
 			number= number+i+0;
 		}else{
 			number=number+i;
@@ -186,6 +187,8 @@ function encode(string) {
 
 function encrypt(number, publicKey) {
 	// this will produce a new encrypted number using the publicKey
+	cypherText = modulo(number,publicKey[1], publicKey[0]);
+	return cypherText;
 }
 
 // The following will decrypt messages
@@ -215,17 +218,24 @@ function convertToText(number) {
 }
 
 
-console.log(genPairPrimes(4));
-console.log(gCD(462, 910));
+// -------------------------TEST CODE BELOW------------------------------
 
-// var primes = genPairPrimes(3);
-// var publicKey = genPublicKey(primes[0], primes[1]);
+// console.log(genPairPrimes(4));
+// console.log(gCD(462, 910));
+
+var primes = genPairPrimes(4);
+var publicKey = genPublicKey(primes[0], primes[1]);
 // console.log(publicKey);
 // var privateKey = genPrivateKey(primes[0] * primes[1], publicKey[1], totient(primes[0],
 // 	primes[1]));
 // console.log(privateKey);
 
-var word = "sup";
+// var word = "sup";
+// var message = encode(word);
+// console.log(message);
+// console.log(typeof message);
+
+var word = "hi";
 var message = encode(word);
+message = encrypt(message, publicKey);
 console.log(message);
-console.log(typeof message);
